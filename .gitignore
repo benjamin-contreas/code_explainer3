@@ -1,4 +1,5 @@
 .agents/
+.env.local
 dist/
 node_modules/
 skills-lock.json

@@ -4,11 +4,13 @@
   "type": "module",
   "scripts": {
     "dev:web": "vite",
-    "dev:api": "node --watch server.ts",
+    "dev:api": "node --env-file-if-exists=.env.local --watch server.ts",
     "build": "tsc --noEmit && vite build",
-    "start:api": "node server.ts"
+    "start:api": "node --env-file-if-exists=.env.local server.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.64",
+    "ai": "^7.0.93",
     "express": "^5.2.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
