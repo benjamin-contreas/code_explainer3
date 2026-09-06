@@ -21,11 +21,24 @@ export function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url, language }),
       });
-      const text = await response.text();
 
       if (!response.ok) throw new Error(`Request failed (${response.status})`);
+      if (!response.body) throw new Error('Response body unavailable');
 
-      setExplanation(text);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        setExplanation((current) =>
+          current + decoder.decode(value, { stream: true }),
+        );
+      }
+
+      setExplanation((current) => current + decoder.decode());
       setStatus('success');
     } catch (requestError) {
       setError(
